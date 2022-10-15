@@ -151,17 +151,18 @@ function getScore(form) {
 
   var scoreper = Math.round((score / numQues) * 100);
 
-  form.percentage.value = scoreper + "%";
-
-  form.mark.value = score;
+  return { mark: score, percentage: scoreper };
 }
 
-function SendMail() {
+function SendMail(form) {
+  let score = getScore(form);
+
   var params = {
     meno_priezvisko: document.getElementById("meno_priezvisko").value,
     firma: document.getElementById("firma").value,
     email: document.getElementById("email").value,
-    //mark: document.getElementById("mark").value - toto nerobi, nacim mi sem napisat rezultat testu z getScore(form)
+    mark: score['mark'],
+    // percentage: score['percentage'], - tako mozes dodat aj procenat ak si chces dodat do mailera
   };
   emailjs
     .send("service_1hf6wkd", "template_4dx8m9n", params)
